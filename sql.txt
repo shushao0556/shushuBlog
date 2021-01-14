@@ -1,0 +1,62 @@
+create database testBlog;
+use testBlog;
+
+create table blog_users(#博客用户表
+    id bigint auto_increment primary key ,
+    username varchar(50) not null ,
+    password varchar(50) not null ,
+    rolename varchar(50) not null ,
+    sex varchar(2) not null ,
+    email varchar(100) not null,
+    mobile varchar(11) not null ,
+    registered datetime not null ,
+    status int default 0 #状态：0.正常 1.管理员 2.禁用 3.审核
+)charset=utf8;
+create table blog_options(#博客信息表
+    options_id bigint auto_increment primary key ,
+    options_name varchar(200) not null ,
+    options_value longtext not null
+)charset=utf8;
+create table blog_posts_category(#博客文章分类
+    category_id bigint auto_increment primary key ,
+    category_name varchar(200) not null
+)charset=utf8;
+create table blog_posts(#博客文章表
+    id bigint auto_increment primary key ,
+    post_author varchar(50)  not null ,
+    post_date datetime not null ,
+    post_content longtext not null ,
+    post_title text not null ,
+    post_status int default 0,#0为草稿 1.发布 2.审核 -1.删除
+    post_category varchar(200) not null ,
+    comment_status int default 1 ,#1为开启评论 2为关闭评论
+    post_password varchar(255),#文章密码
+    post_modified datetime not null,
+    post_visibility int default 0 #状态：0.公开 1.密码保护 2.私密
+)charset=utf8;
+create table blog_posts_log(#博客文章相关信息表
+   id bigint auto_increment primary key ,
+   post_id bigint not null ,
+   post_url varchar(255) not null ,
+   posts_category varchar(200) not null ,
+   create_date datetime,
+   post_status int
+)charset=utf8;
+create table blog_links(#博客友情链接表
+    links_id bigint auto_increment primary key ,
+    links_name varchar(255) not null ,
+    links_url varchar(255) not null ,
+    links_image varchar(255) ,
+    links_target int default 1,#0为当前窗口打开 1为新窗口打开
+    links_description varchar(255)not null ,
+    links_note longtext #备注
+)charset=utf8;
+create table blog_comments(#博客评论表
+    comment_id bigint auto_increment primary key ,
+    comment_post_id bigint not null ,
+    comment_author varchar(50) not null ,
+    comment_author_email varchar(100) not null ,
+    comment_author_ip varchar(100) NOT NULL,
+    comment_date datetime NOT NULL,
+    comment_content text NOT NULL
+)charset=utf8;
