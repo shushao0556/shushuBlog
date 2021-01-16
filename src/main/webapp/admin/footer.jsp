@@ -4,9 +4,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/layui/css/layui.css" media="all">
     <script src="${pageContext.request.contextPath}/layui/layui.js"></script>
-    <title>用户首页</title>
+    <title>管理员首页</title>
 </head>
 <body>
-<a href="${pageContext.request.contextPath}/logout">注销</a>
-</body>
+<div class="layui-footer">
+    <!-- 底部固定区域 -->
+    © layui.com - 底部固定区域
+</div></body>
 </html>
