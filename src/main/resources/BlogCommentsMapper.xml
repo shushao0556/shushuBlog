@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.evshou.mapper.BlogCommentsMapper" >
+  <resultMap id="BaseResultMap" type="com.evshou.entity.BlogComments" >
+    <id column="comment_id" property="commentId" jdbcType="BIGINT" />
+    <result column="comment_post_id" property="commentPostId" jdbcType="BIGINT" />
+    <result column="comment_author" property="commentAuthor" jdbcType="VARCHAR" />
+    <result column="comment_author_email" property="commentAuthorEmail" jdbcType="VARCHAR" />
+    <result column="comment_author_ip" property="commentAuthorIp" jdbcType="VARCHAR" />
+    <result column="comment_date" property="commentDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.evshou.entity.BlogComments" extends="BaseResultMap" >
+    <result column="comment_content" property="commentContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    comment_id, comment_post_id, comment_author, comment_author_email, comment_author_ip, 
+    comment_date
+  </sql>
+  <sql id="Blob_Column_List" >
+    comment_content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.evshou.entity.BlogCommentsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from blog_comments
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.evshou.entity.BlogCommentsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from blog_comments
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from blog_comments
+    where comment_id = #{commentId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from blog_comments
+    where comment_id = #{commentId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.evshou.entity.BlogCommentsExample" >
+    delete from blog_comments
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.evshou.entity.BlogComments" >
+    insert into blog_comments (comment_id, comment_post_id, comment_author, 
+      comment_author_email, comment_author_ip, comment_date, 
+      comment_content)
+    values (#{commentId,jdbcType=BIGINT}, #{commentPostId,jdbcType=BIGINT}, #{commentAuthor,jdbcType=VARCHAR}, 
+      #{commentAuthorEmail,jdbcType=VARCHAR}, #{commentAuthorIp,jdbcType=VARCHAR}, #{commentDate,jdbcType=TIMESTAMP}, 
+      #{commentContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.evshou.entity.BlogComments" >
+    insert into blog_comments
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="commentId != null" >
+        comment_id,
+      </if>
+      <if test="commentPostId != null" >
+        comment_post_id,
+      </if>
+      <if test="commentAuthor != null" >
+        comment_author,
+      </if>
+      <if test="commentAuthorEmail != null" >
+        comment_author_email,
+      </if>
+      <if test="commentAuthorIp != null" >
+        comment_author_ip,
+      </if>
+      <if test="commentDate != null" >
+        comment_date,
+      </if>
+      <if test="commentContent != null" >
+        comment_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="commentId != null" >
+        #{commentId,jdbcType=BIGINT},
+      </if>
+      <if test="commentPostId != null" >
+        #{commentPostId,jdbcType=BIGINT},
+      </if>
+      <if test="commentAuthor != null" >
+        #{commentAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="commentAuthorEmail != null" >
+        #{commentAuthorEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="commentAuthorIp != null" >
+        #{commentAuthorIp,jdbcType=VARCHAR},
+      </if>
+      <if test="commentDate != null" >
+        #{commentDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentContent != null" >
+        #{commentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.evshou.entity.BlogCommentsExample" resultType="java.lang.Integer" >
+    select count(*) from blog_comments
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update blog_comments
+    <set >
+      <if test="record.commentId != null" >
+        comment_id = #{record.commentId,jdbcType=BIGINT},
+      </if>
+      <if test="record.commentPostId != null" >
+        comment_post_id = #{record.commentPostId,jdbcType=BIGINT},
+      </if>
+      <if test="record.commentAuthor != null" >
+        comment_author = #{record.commentAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commentAuthorEmail != null" >
+        comment_author_email = #{record.commentAuthorEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commentAuthorIp != null" >
+        comment_author_ip = #{record.commentAuthorIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commentDate != null" >
+        comment_date = #{record.commentDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.commentContent != null" >
+        comment_content = #{record.commentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update blog_comments
+    set comment_id = #{record.commentId,jdbcType=BIGINT},
+      comment_post_id = #{record.commentPostId,jdbcType=BIGINT},
+      comment_author = #{record.commentAuthor,jdbcType=VARCHAR},
+      comment_author_email = #{record.commentAuthorEmail,jdbcType=VARCHAR},
+      comment_author_ip = #{record.commentAuthorIp,jdbcType=VARCHAR},
+      comment_date = #{record.commentDate,jdbcType=TIMESTAMP},
+      comment_content = #{record.commentContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update blog_comments
+    set comment_id = #{record.commentId,jdbcType=BIGINT},
+      comment_post_id = #{record.commentPostId,jdbcType=BIGINT},
+      comment_author = #{record.commentAuthor,jdbcType=VARCHAR},
+      comment_author_email = #{record.commentAuthorEmail,jdbcType=VARCHAR},
+      comment_author_ip = #{record.commentAuthorIp,jdbcType=VARCHAR},
+      comment_date = #{record.commentDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.evshou.entity.BlogComments" >
+    update blog_comments
+    <set >
+      <if test="commentPostId != null" >
+        comment_post_id = #{commentPostId,jdbcType=BIGINT},
+      </if>
+      <if test="commentAuthor != null" >
+        comment_author = #{commentAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="commentAuthorEmail != null" >
+        comment_author_email = #{commentAuthorEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="commentAuthorIp != null" >
+        comment_author_ip = #{commentAuthorIp,jdbcType=VARCHAR},
+      </if>
+      <if test="commentDate != null" >
+        comment_date = #{commentDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentContent != null" >
+        comment_content = #{commentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where comment_id = #{commentId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.evshou.entity.BlogComments" >
+    update blog_comments
+    set comment_post_id = #{commentPostId,jdbcType=BIGINT},
+      comment_author = #{commentAuthor,jdbcType=VARCHAR},
+      comment_author_email = #{commentAuthorEmail,jdbcType=VARCHAR},
+      comment_author_ip = #{commentAuthorIp,jdbcType=VARCHAR},
+      comment_date = #{commentDate,jdbcType=TIMESTAMP},
+      comment_content = #{commentContent,jdbcType=LONGVARCHAR}
+    where comment_id = #{commentId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.evshou.entity.BlogComments" >
+    update blog_comments
+    set comment_post_id = #{commentPostId,jdbcType=BIGINT},
+      comment_author = #{commentAuthor,jdbcType=VARCHAR},
+      comment_author_email = #{commentAuthorEmail,jdbcType=VARCHAR},
+      comment_author_ip = #{commentAuthorIp,jdbcType=VARCHAR},
+      comment_date = #{commentDate,jdbcType=TIMESTAMP}
+    where comment_id = #{commentId,jdbcType=BIGINT}
+  </update>
+</mapper>

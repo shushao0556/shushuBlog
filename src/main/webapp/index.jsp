@@ -7,6 +7,8 @@
     <title>首页</title>
 </head>
 <body>
-
+<script>
+    location.href='public/login.jsp';
+</script>
 </body>
 </html>

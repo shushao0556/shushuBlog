@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.evshou.mapper.BlogOptionsMapper" >
+  <resultMap id="BaseResultMap" type="com.evshou.entity.BlogOptions" >
+    <id column="options_id" property="optionsId" jdbcType="INTEGER" />
+    <result column="webTitle" property="webtitle" jdbcType="VARCHAR" />
+    <result column="webTitle2" property="webtitle2" jdbcType="VARCHAR" />
+    <result column="webUrl" property="weburl" jdbcType="VARCHAR" />
+    <result column="webEmail" property="webemail" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    options_id, webTitle, webTitle2, webUrl, webEmail
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.evshou.entity.BlogOptionsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from blog_options
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from blog_options
+    where options_id = #{optionsId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from blog_options
+    where options_id = #{optionsId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.evshou.entity.BlogOptionsExample" >
+    delete from blog_options
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.evshou.entity.BlogOptions" >
+    insert into blog_options (options_id, webTitle, webTitle2, 
+      webUrl, webEmail)
+    values (#{optionsId,jdbcType=INTEGER}, #{webtitle,jdbcType=VARCHAR}, #{webtitle2,jdbcType=VARCHAR}, 
+      #{weburl,jdbcType=VARCHAR}, #{webemail,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.evshou.entity.BlogOptions" >
+    insert into blog_options
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="optionsId != null" >
+        options_id,
+      </if>
+      <if test="webtitle != null" >
+        webTitle,
+      </if>
+      <if test="webtitle2 != null" >
+        webTitle2,
+      </if>
+      <if test="weburl != null" >
+        webUrl,
+      </if>
+      <if test="webemail != null" >
+        webEmail,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="optionsId != null" >
+        #{optionsId,jdbcType=INTEGER},
+      </if>
+      <if test="webtitle != null" >
+        #{webtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="webtitle2 != null" >
+        #{webtitle2,jdbcType=VARCHAR},
+      </if>
+      <if test="weburl != null" >
+        #{weburl,jdbcType=VARCHAR},
+      </if>
+      <if test="webemail != null" >
+        #{webemail,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.evshou.entity.BlogOptionsExample" resultType="java.lang.Integer" >
+    select count(*) from blog_options
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update blog_options
+    <set >
+      <if test="record.optionsId != null" >
+        options_id = #{record.optionsId,jdbcType=INTEGER},
+      </if>
+      <if test="record.webtitle != null" >
+        webTitle = #{record.webtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.webtitle2 != null" >
+        webTitle2 = #{record.webtitle2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weburl != null" >
+        webUrl = #{record.weburl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.webemail != null" >
+        webEmail = #{record.webemail,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update blog_options
+    set options_id = #{record.optionsId,jdbcType=INTEGER},
+      webTitle = #{record.webtitle,jdbcType=VARCHAR},
+      webTitle2 = #{record.webtitle2,jdbcType=VARCHAR},
+      webUrl = #{record.weburl,jdbcType=VARCHAR},
+      webEmail = #{record.webemail,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.evshou.entity.BlogOptions" >
+    update blog_options
+    <set >
+      <if test="webtitle != null" >
+        webTitle = #{webtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="webtitle2 != null" >
+        webTitle2 = #{webtitle2,jdbcType=VARCHAR},
+      </if>
+      <if test="weburl != null" >
+        webUrl = #{weburl,jdbcType=VARCHAR},
+      </if>
+      <if test="webemail != null" >
+        webEmail = #{webemail,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where options_id = #{optionsId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.evshou.entity.BlogOptions" >
+    update blog_options
+    set webTitle = #{webtitle,jdbcType=VARCHAR},
+      webTitle2 = #{webtitle2,jdbcType=VARCHAR},
+      webUrl = #{weburl,jdbcType=VARCHAR},
+      webEmail = #{webemail,jdbcType=VARCHAR}
+    where options_id = #{optionsId,jdbcType=INTEGER}
+  </update>
+</mapper>

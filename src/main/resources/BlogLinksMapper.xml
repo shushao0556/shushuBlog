@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.evshou.mapper.BlogLinksMapper" >
+  <resultMap id="BaseResultMap" type="com.evshou.entity.BlogLinks" >
+    <id column="links_id" property="linksId" jdbcType="BIGINT" />
+    <result column="links_name" property="linksName" jdbcType="VARCHAR" />
+    <result column="links_url" property="linksUrl" jdbcType="VARCHAR" />
+    <result column="links_image" property="linksImage" jdbcType="VARCHAR" />
+    <result column="links_target" property="linksTarget" jdbcType="INTEGER" />
+    <result column="links_description" property="linksDescription" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.evshou.entity.BlogLinks" extends="BaseResultMap" >
+    <result column="links_note" property="linksNote" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    links_id, links_name, links_url, links_image, links_target, links_description
+  </sql>
+  <sql id="Blob_Column_List" >
+    links_note
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.evshou.entity.BlogLinksExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from blog_links
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.evshou.entity.BlogLinksExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from blog_links
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from blog_links
+    where links_id = #{linksId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from blog_links
+    where links_id = #{linksId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.evshou.entity.BlogLinksExample" >
+    delete from blog_links
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.evshou.entity.BlogLinks" >
+    insert into blog_links (links_id, links_name, links_url, 
+      links_image, links_target, links_description, 
+      links_note)
+    values (#{linksId,jdbcType=BIGINT}, #{linksName,jdbcType=VARCHAR}, #{linksUrl,jdbcType=VARCHAR}, 
+      #{linksImage,jdbcType=VARCHAR}, #{linksTarget,jdbcType=INTEGER}, #{linksDescription,jdbcType=VARCHAR}, 
+      #{linksNote,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.evshou.entity.BlogLinks" >
+    insert into blog_links
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="linksId != null" >
+        links_id,
+      </if>
+      <if test="linksName != null" >
+        links_name,
+      </if>
+      <if test="linksUrl != null" >
+        links_url,
+      </if>
+      <if test="linksImage != null" >
+        links_image,
+      </if>
+      <if test="linksTarget != null" >
+        links_target,
+      </if>
+      <if test="linksDescription != null" >
+        links_description,
+      </if>
+      <if test="linksNote != null" >
+        links_note,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="linksId != null" >
+        #{linksId,jdbcType=BIGINT},
+      </if>
+      <if test="linksName != null" >
+        #{linksName,jdbcType=VARCHAR},
+      </if>
+      <if test="linksUrl != null" >
+        #{linksUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="linksImage != null" >
+        #{linksImage,jdbcType=VARCHAR},
+      </if>
+      <if test="linksTarget != null" >
+        #{linksTarget,jdbcType=INTEGER},
+      </if>
+      <if test="linksDescription != null" >
+        #{linksDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="linksNote != null" >
+        #{linksNote,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.evshou.entity.BlogLinksExample" resultType="java.lang.Integer" >
+    select count(*) from blog_links
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update blog_links
+    <set >
+      <if test="record.linksId != null" >
+        links_id = #{record.linksId,jdbcType=BIGINT},
+      </if>
+      <if test="record.linksName != null" >
+        links_name = #{record.linksName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linksUrl != null" >
+        links_url = #{record.linksUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linksImage != null" >
+        links_image = #{record.linksImage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linksTarget != null" >
+        links_target = #{record.linksTarget,jdbcType=INTEGER},
+      </if>
+      <if test="record.linksDescription != null" >
+        links_description = #{record.linksDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linksNote != null" >
+        links_note = #{record.linksNote,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update blog_links
+    set links_id = #{record.linksId,jdbcType=BIGINT},
+      links_name = #{record.linksName,jdbcType=VARCHAR},
+      links_url = #{record.linksUrl,jdbcType=VARCHAR},
+      links_image = #{record.linksImage,jdbcType=VARCHAR},
+      links_target = #{record.linksTarget,jdbcType=INTEGER},
+      links_description = #{record.linksDescription,jdbcType=VARCHAR},
+      links_note = #{record.linksNote,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update blog_links
+    set links_id = #{record.linksId,jdbcType=BIGINT},
+      links_name = #{record.linksName,jdbcType=VARCHAR},
+      links_url = #{record.linksUrl,jdbcType=VARCHAR},
+      links_image = #{record.linksImage,jdbcType=VARCHAR},
+      links_target = #{record.linksTarget,jdbcType=INTEGER},
+      links_description = #{record.linksDescription,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.evshou.entity.BlogLinks" >
+    update blog_links
+    <set >
+      <if test="linksName != null" >
+        links_name = #{linksName,jdbcType=VARCHAR},
+      </if>
+      <if test="linksUrl != null" >
+        links_url = #{linksUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="linksImage != null" >
+        links_image = #{linksImage,jdbcType=VARCHAR},
+      </if>
+      <if test="linksTarget != null" >
+        links_target = #{linksTarget,jdbcType=INTEGER},
+      </if>
+      <if test="linksDescription != null" >
+        links_description = #{linksDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="linksNote != null" >
+        links_note = #{linksNote,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where links_id = #{linksId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.evshou.entity.BlogLinks" >
+    update blog_links
+    set links_name = #{linksName,jdbcType=VARCHAR},
+      links_url = #{linksUrl,jdbcType=VARCHAR},
+      links_image = #{linksImage,jdbcType=VARCHAR},
+      links_target = #{linksTarget,jdbcType=INTEGER},
+      links_description = #{linksDescription,jdbcType=VARCHAR},
+      links_note = #{linksNote,jdbcType=LONGVARCHAR}
+    where links_id = #{linksId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.evshou.entity.BlogLinks" >
+    update blog_links
+    set links_name = #{linksName,jdbcType=VARCHAR},
+      links_url = #{linksUrl,jdbcType=VARCHAR},
+      links_image = #{linksImage,jdbcType=VARCHAR},
+      links_target = #{linksTarget,jdbcType=INTEGER},
+      links_description = #{linksDescription,jdbcType=VARCHAR}
+    where links_id = #{linksId,jdbcType=BIGINT}
+  </update>
+</mapper>

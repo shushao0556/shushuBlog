@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -15,13 +16,5 @@
         <jsp:include page="body.jsp"/>
         <jsp:include page="footer.jsp"/>
     </div>
-    <script>
-        //注意：导航 依赖 element 模块，否则无法进行功能性操作
-        layui.use('element', function(){
-            var element = layui.element;
-
-            //…
-        });
-    </script>
 </body>
 </html>

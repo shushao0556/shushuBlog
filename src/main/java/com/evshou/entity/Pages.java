@@ -2,7 +2,7 @@ package com.evshou.entity;
 
 public class Pages {
     private Integer pageNums=1;
-    private Integer pageSize=6;
+    private Integer pageSize=10;
 
     public Integer getPageNums() {
         return pageNums;

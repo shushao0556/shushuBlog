@@ -28,10 +28,7 @@ public class adminServlet extends HttpServlet {
         if (users != null) {
             if(users.getStatus()==0)response.sendRedirect(path+"/user/index.jsp");
             else if(users.getStatus()!=1) writer.println("非法访问!");
-            else if(users.getStatus()==1) response.sendRedirect(path+"/admin/index.jsp");
-        }else{
-            writer.println("请<a href="+path+"/public/login.jsp>登录</a>");
-        }
-
+            else response.sendRedirect(path+"/admin/index.jsp");
+        }else response.sendRedirect(path+"/public/login.jsp");
     }
 }

@@ -8,6 +8,9 @@
     <typeAliases>
         <package name="com.evshou.entity"/>
     </typeAliases>
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor"/>
+    </plugins>
     <!--定义数据源-->
     <environments default="development">
         <environment id="development">
@@ -22,5 +25,11 @@
     </environments>
     <mappers>
         <mapper resource="BlogUsersMapper.xml"/>
+        <mapper resource="BlogOptionsMapper.xml"/>
+        <mapper resource="BlogPostsCategoryMapper.xml"/>
+        <mapper resource="BlogCommentsMapper.xml"/>
+        <mapper resource="BlogLinksMapper.xml"/>
+        <mapper resource="BlogPostsLogMapper.xml"/>
+        <mapper resource="BlogPostsMapper.xml"/>
     </mappers>
 </configuration>

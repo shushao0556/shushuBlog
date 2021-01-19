@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.evshou.mapper.BlogPostsMapper" >
+  <resultMap id="BaseResultMap" type="com.evshou.entity.BlogPosts" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="post_author" property="postAuthor" jdbcType="VARCHAR" />
+    <result column="post_date" property="postDate" jdbcType="TIMESTAMP" />
+    <result column="post_status" property="postStatus" jdbcType="INTEGER" />
+    <result column="post_category" property="postCategory" jdbcType="VARCHAR" />
+    <result column="comment_status" property="commentStatus" jdbcType="INTEGER" />
+    <result column="post_password" property="postPassword" jdbcType="VARCHAR" />
+    <result column="post_modified" property="postModified" jdbcType="TIMESTAMP" />
+    <result column="post_visibility" property="postVisibility" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.evshou.entity.BlogPostsWithBLOBs" extends="BaseResultMap" >
+    <result column="post_content" property="postContent" jdbcType="LONGVARCHAR" />
+    <result column="post_title" property="postTitle" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <select id="getAllPosts" resultMap="BaseResultMap">
+    select b.id,b.post_title,b.post_category,b.post_date from blog_posts b
+  </select>
+
+
+
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, post_author, post_date, post_status, post_category, comment_status, post_password, 
+    post_modified, post_visibility
+  </sql>
+  <sql id="Blob_Column_List" >
+    post_content, post_title
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.evshou.entity.BlogPostsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from blog_posts
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.evshou.entity.BlogPostsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from blog_posts
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from blog_posts
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from blog_posts
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.evshou.entity.BlogPostsExample" >
+    delete from blog_posts
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.evshou.entity.BlogPostsWithBLOBs" >
+    insert into blog_posts (id, post_author, post_date, 
+      post_status, post_category, comment_status, 
+      post_password, post_modified, post_visibility, 
+      post_content, post_title)
+    values (#{id,jdbcType=BIGINT}, #{postAuthor,jdbcType=VARCHAR}, #{postDate,jdbcType=TIMESTAMP}, 
+      #{postStatus,jdbcType=INTEGER}, #{postCategory,jdbcType=VARCHAR}, #{commentStatus,jdbcType=INTEGER}, 
+      #{postPassword,jdbcType=VARCHAR}, #{postModified,jdbcType=TIMESTAMP}, #{postVisibility,jdbcType=INTEGER}, 
+      #{postContent,jdbcType=LONGVARCHAR}, #{postTitle,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.evshou.entity.BlogPostsWithBLOBs" >
+    insert into blog_posts
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="postAuthor != null" >
+        post_author,
+      </if>
+      <if test="postDate != null" >
+        post_date,
+      </if>
+      <if test="postStatus != null" >
+        post_status,
+      </if>
+      <if test="postCategory != null" >
+        post_category,
+      </if>
+      <if test="commentStatus != null" >
+        comment_status,
+      </if>
+      <if test="postPassword != null" >
+        post_password,
+      </if>
+      <if test="postModified != null" >
+        post_modified,
+      </if>
+      <if test="postVisibility != null" >
+        post_visibility,
+      </if>
+      <if test="postContent != null" >
+        post_content,
+      </if>
+      <if test="postTitle != null" >
+        post_title,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="postAuthor != null" >
+        #{postAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="postDate != null" >
+        #{postDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="postStatus != null" >
+        #{postStatus,jdbcType=INTEGER},
+      </if>
+      <if test="postCategory != null" >
+        #{postCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="commentStatus != null" >
+        #{commentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="postPassword != null" >
+        #{postPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="postModified != null" >
+        #{postModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="postVisibility != null" >
+        #{postVisibility,jdbcType=INTEGER},
+      </if>
+      <if test="postContent != null" >
+        #{postContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="postTitle != null" >
+        #{postTitle,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.evshou.entity.BlogPostsExample" resultType="java.lang.Integer" >
+    select count(*) from blog_posts
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update blog_posts
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.postAuthor != null" >
+        post_author = #{record.postAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postDate != null" >
+        post_date = #{record.postDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.postStatus != null" >
+        post_status = #{record.postStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.postCategory != null" >
+        post_category = #{record.postCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commentStatus != null" >
+        comment_status = #{record.commentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.postPassword != null" >
+        post_password = #{record.postPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postModified != null" >
+        post_modified = #{record.postModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.postVisibility != null" >
+        post_visibility = #{record.postVisibility,jdbcType=INTEGER},
+      </if>
+      <if test="record.postContent != null" >
+        post_content = #{record.postContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.postTitle != null" >
+        post_title = #{record.postTitle,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update blog_posts
+    set id = #{record.id,jdbcType=BIGINT},
+      post_author = #{record.postAuthor,jdbcType=VARCHAR},
+      post_date = #{record.postDate,jdbcType=TIMESTAMP},
+      post_status = #{record.postStatus,jdbcType=INTEGER},
+      post_category = #{record.postCategory,jdbcType=VARCHAR},
+      comment_status = #{record.commentStatus,jdbcType=INTEGER},
+      post_password = #{record.postPassword,jdbcType=VARCHAR},
+      post_modified = #{record.postModified,jdbcType=TIMESTAMP},
+      post_visibility = #{record.postVisibility,jdbcType=INTEGER},
+      post_content = #{record.postContent,jdbcType=LONGVARCHAR},
+      post_title = #{record.postTitle,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update blog_posts
+    set id = #{record.id,jdbcType=BIGINT},
+      post_author = #{record.postAuthor,jdbcType=VARCHAR},
+      post_date = #{record.postDate,jdbcType=TIMESTAMP},
+      post_status = #{record.postStatus,jdbcType=INTEGER},
+      post_category = #{record.postCategory,jdbcType=VARCHAR},
+      comment_status = #{record.commentStatus,jdbcType=INTEGER},
+      post_password = #{record.postPassword,jdbcType=VARCHAR},
+      post_modified = #{record.postModified,jdbcType=TIMESTAMP},
+      post_visibility = #{record.postVisibility,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.evshou.entity.BlogPostsWithBLOBs" >
+    update blog_posts
+    <set >
+      <if test="postAuthor != null" >
+        post_author = #{postAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="postDate != null" >
+        post_date = #{postDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="postStatus != null" >
+        post_status = #{postStatus,jdbcType=INTEGER},
+      </if>
+      <if test="postCategory != null" >
+        post_category = #{postCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="commentStatus != null" >
+        comment_status = #{commentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="postPassword != null" >
+        post_password = #{postPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="postModified != null" >
+        post_modified = #{postModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="postVisibility != null" >
+        post_visibility = #{postVisibility,jdbcType=INTEGER},
+      </if>
+      <if test="postContent != null" >
+        post_content = #{postContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="postTitle != null" >
+        post_title = #{postTitle,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.evshou.entity.BlogPostsWithBLOBs" >
+    update blog_posts
+    set post_author = #{postAuthor,jdbcType=VARCHAR},
+      post_date = #{postDate,jdbcType=TIMESTAMP},
+      post_status = #{postStatus,jdbcType=INTEGER},
+      post_category = #{postCategory,jdbcType=VARCHAR},
+      comment_status = #{commentStatus,jdbcType=INTEGER},
+      post_password = #{postPassword,jdbcType=VARCHAR},
+      post_modified = #{postModified,jdbcType=TIMESTAMP},
+      post_visibility = #{postVisibility,jdbcType=INTEGER},
+      post_content = #{postContent,jdbcType=LONGVARCHAR},
+      post_title = #{postTitle,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.evshou.entity.BlogPosts" >
+    update blog_posts
+    set post_author = #{postAuthor,jdbcType=VARCHAR},
+      post_date = #{postDate,jdbcType=TIMESTAMP},
+      post_status = #{postStatus,jdbcType=INTEGER},
+      post_category = #{postCategory,jdbcType=VARCHAR},
+      comment_status = #{commentStatus,jdbcType=INTEGER},
+      post_password = #{postPassword,jdbcType=VARCHAR},
+      post_modified = #{postModified,jdbcType=TIMESTAMP},
+      post_visibility = #{postVisibility,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
